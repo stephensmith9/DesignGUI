@@ -27,12 +27,12 @@ installed @file{Cuis-Smalltalk-Dev} system:
 @example
 cd yourPath/Cuis-Smalltalk-Dev
 cd ..
-git clone --depth 1 http://github.com/Cuis-Smalltalk/Cuis-Smalltalk-UI
+git clone --depth 1 https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-UI
 @end example
 
 The repository contents are divided into several packages whose classes
 are listed for reference on the @file{README} page of the repository. In the
-following chapter, we will install the appropriate package individually when
+following sections, we will install the appropriate packages individually as
 needed.
 
 @node Easing GUI design
@@ -62,25 +62,25 @@ content, it will contract the text:
 
 @smalltalkExampleCaption{Label that squeezes, labelSqueeze1,
 (SqueezeLabelMorph
-   contents: 'I am a very looong label with maybe not enough place for me'
+   contents: 'I am a very looong label with possibly not enough room for my characters'
    minCharsToShow: 20) openInWorld.}
 
-The content of the label is very long, especially as we inform the label
-to accept being squeezed to a minimum of 20 characters. Observe how such a
-squeezed label reveals its complete content in a balloon text when the
-pointer is hovering over it.
+The content of the label above is longer than the value of @smalltalk{minCharsToShow:}
+which we have set to 20 characters. Observe how such a squeezed label reveals its complete
+content in the balloon text when the pointer is hovering over it, and how capitalization
+of words occurs to make the contracted label easier to comprehend.
 
 @figure{A label squeezed to 20 characters,ch06-squeezeLabel,6}
 
-When more space is made available to the label, more text of its
-content is revealed:
+When more space is made available to the label, more characters are revealed:
 
 @figure{A squeezed label given some more space,ch06-squeezeLabelMore,6}
 
-When packing a @class{SqueezeLabel} in a layout morph with other morphs,
-it will have consequences on the minimal width of the owner layout.
+Packing a @class{SqueezeLabelMorph} in a layout morph with other morphs
+will affect the minimal width of the owner layout.
 
-Compare the two examples with a squeezed and regular label:
+Compare the two examples that follow, one with a squeezed label, and one with
+a regular label:
 
 @smalltalkExampleCaption{Squeezed label for a text entry,labelTextEntry1,
 | label row | 
@@ -97,7 +97,7 @@ The whole layout is contracted to a smaller width.
 
 @figure{A text entry with a squeezed label,ch06-squeezeLabelLayout,4}
 
-When comparing this to a regular label use case:
+Now compare this to a regular label use case:
 
 @figure{A text entry with a regular label,ch06-labelLayout,5}
 
@@ -109,24 +109,24 @@ row
    addMorph: (TextModelMorph withText: 'some input' :: morphExtent: 100@@0).
 row openInWorld}
 
-It is up to you to decide between the compactness of the GUI and the
-readability of the labels.
+It is up to you to decide between compactness of the GUI and readability
+of the labels.
 
 @cindex widget @subentry text entry @subentry one line
 
 @subsection One Line Entry
 
 In @ref{Text entry}, we presented a quite complex and feature-complete
-class to handle multiple lines of text editing. When only one line of
-editing is needed, it is a bit overkill. In that circumstance, you can
+class to handle multiple lines of text editing. That's a bit overkill
+when only one line of editing is needed. In that circumstance, you can
 alternatively use the @class{TextEntryMorph}, part of the
 @file{UI-Entry} package:
 
 @smalltalkExample{Feature require: 'UI-Entry'}
 
 This class is quite simple, and contrary to the @class{TextModelMorph}, it
-does not need a text model. Therefore, there is no such thing as a changed
-and update mechanism involved; it is a passive morph.
+does not need a text model. Therefore, there is no changed/update mechanism
+involved; it is a passive morph.
 
 However, it offers two options to interact with other objects:
 
@@ -184,8 +184,8 @@ mechanisms were needed, an intermediate object such as the
 
 @subsection Labelling Widget
 
-In @ref{textModelMorphExample,,example of text entry}, we used layout to
-associate a text entry with a label. It is a very common task when
+In our @ref{textModelMorphExample,,User Interaction Demo}, we used a layout to
+associate a text entry with a label; a very common task when
 building a GUI. The @class{LabelGroup} does exactly that for an arbitrary
 number of morphs.
 
@@ -202,14 +202,14 @@ inserted in a dialog or a window.
 
 @figure{Text entries associated with labels,ch06-labelGroup,3.5}
 
-The group also gives access to the controls, although it is not a very
+The label group also gives access to the controls, although it is not a very
 efficient way to access the input widgets used in the group; it is handy.
 
 @figure{Access to the controls of a label group,ch06-labelGroupControls,6}
 
 A label group is useful when constructing small dialogs. In the next
-section, we build one with the morphs we learned in this section and the
-previous ones.
+section, we build one with the morphs we learned in this and the previous
+sections.
 
 @cindex panel
 @cindex dialog
@@ -223,13 +223,13 @@ Small windows the user interacts with are called dialogs or panels.
 
 @smalltalkExample{Feature require: 'UI-Panel'}
 
-Let's rewrite the @ref{textModelMorphExample,, example of text entry}
+Let's rewrite our @ref{textModelMorphExample,,User Interaction Demo}
 with what we just learned. The end result will look like this:
 
 @figure{A greeting dialog, ch06-greetingDialog, 6}
 
 In the hierarchy provided by the @file{UI-Panel} package, we use the
-@class{DialogPanel} class. It offers both an area to plug our
+@class{DialogPanel} class. It offers both an area to plug in our
 interactive components and an area for our buttons.
 
 @smalltalkExample{DialogPanel subclass: #GreetingPanel
@@ -249,7 +249,7 @@ Then install the iconic buttons for its title:
 super initialize.
 self showButtonsNamed: #(close expand)}
 
-To know about the available buttons for the title bar of a panel, read
+To learn about the available buttons for the title bar of a panel, read
 the class @class{WindowTitleMorph}. The expand action needs a rewrite of
 its associated action:
 
@@ -274,7 +274,7 @@ column
       LayoutSpec proportionalWidth: 0 fixedHeight: 20 offAxisEdgeWeight: #center).
 @return{} column}
 
-The button has its own method too for installation:
+The button also has its own method for installation:
 
 @smalltalkMethod{newButtonArea,
 @return{} PluggableButtonMorph model: self action: #greet label: 'Greet' ::
@@ -292,7 +292,7 @@ greetLabel contents: (
 
 In the next sections, we present a very small selection of useful
 components. There are many more to explore in the repository; they all
-come with example methods to learn from on their class side.
+come with example methods to learn from, found on their class side.
 
 @subsection Radio and Check Buttons
 
@@ -332,16 +332,16 @@ group buttons first
 
 Do not add the @smalltalk{cuisCheck} variable to the declaration at the
 first line of the script; otherwise, it will be garbage collected.
-Indeed, action events are weakly referenced -- i.e., it does not add a
+Indeed, an action event is weakly referenced -- i.e., it does not add a
 count to its reference use. Of course, in an application, you will use a
 method selector as the argument of the @msg{to:} keyword.
 
 @cindex widget @subentry radio button
 
-In a radio group, only one check button is selected at a time. When a
+In a radio button group, only one button is selected at a time. When a
 new button is selected, the previously selected button is
 deselected. A radio button is drawn differently, as a circle. We can
-alter our previous greeting dialog to add a radio group to select a
+alter our previous greeting dialog to add a radio button group to select a
 preferred color:
 
 @smalltalkMethod{newPane,
@@ -401,7 +401,7 @@ listModel when: #listSelectionChanged send: #updateIcon: to: self.
 We create a collection of image morphs, each with a different icon. We use
 a @class{ListModel} to hold the collection and trigger events when the
 @emph{list selection is changed}. In that circumstance, the message
-@msg{updateIcon:} is sent to the dialog with the argument the list model;
+@msg{updateIcon:} is sent to the dialog with the list model as the argument;
 this method is straightforward:
 
 @smalltalkMethod{updateIcon: aListModel,
@@ -417,15 +417,15 @@ implemented in this model too.
 
 @subsection Decorating Component
 
-Decorating a component is a nice way to set a label around one or several
+Decorating a component is a nice way to set a label around one or more
 widgets, but it is much more than that. The decorated components are
 highlighted with a surrounding line and a textual label, plus an optional
 list of quick buttons. The quick buttons can be anything to operate on
 the surrounded components.
 
 The class @class{DecoratedPane} is part of the @file{UI-Panel}; it is
-likely already installed on the @cuis{} system of the reader if the
-previous sections of this booklet were read. A decorated pane expects a
+likely already installed on your @cuis{} system if you followed along
+with the previous sections of this booklet. A decorated pane expects a
 morph to decorate, a string, and an optional collection of buttons:
 
 @smalltalkExampleCaption{Decorating a morph, decoratedMorph1,
@@ -473,7 +473,7 @@ column
 @dots{} }
 
 Observe the @class{PluggableButtonMorph}; we use @class{BlockClosure} as a
-model and the message @msg{value} as the action to get it executed at
+model and the message @msg{value} as the action to get it executed on
 the button click. In a real application, you will more likely use an instance
 as a model and an associated method of its protocol.
 
@@ -508,7 +508,7 @@ without the file extension:
 @smalltalkExample{Theme current fetch: #('16x16' 'actions' 'appointment-new')}
 
 Several icons come with a @emph{shortcut} found in the @class{Theme} class. 
-Now you may want to use alternative icons; this is where you use the
+Alternatively you may want to use your own icons; this is where you use the
 @class{IconImporter} class:
 
 @smalltalkExample{Feature require: 'UI-Graphic-Import'}
@@ -522,8 +522,8 @@ a path where to search for the icons:
 
 Then you ask for a @class{Form} or an @class{ImageMorph} of a given
 icon. To use the file @file{group.svg} located in @file{
-'/home/dev/Dynamic-Book/icons'} as an icon and to scale it as a 32x32
-pixels form, you write:
+'/home/dev/Dynamic-Book/icons'} as an icon, and to scale it as a 32x32
+pixel form, you write:
 
 @smalltalkExample{icons getForm: #group32}
 
